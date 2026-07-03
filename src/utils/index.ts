@@ -1,0 +1,2 @@
+// Global pure utilities.
+export {};
