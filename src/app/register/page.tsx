@@ -4,11 +4,11 @@ import { Dumbbell } from "lucide-react";
 import { getCurrentUser } from "@/features/authentication/services/session";
 import {
   ROLE_HOME,
-  REGISTER_PATH,
+  LOGIN_PATH,
 } from "@/features/authentication/constants/auth.constants";
-import { LoginForm } from "@/features/authentication/components/login-form";
+import { RegisterForm } from "@/features/authentication/components/register-form";
 
-export default async function LoginPage() {
+export default async function RegisterPage() {
   const user = await getCurrentUser();
   if (user) {
     redirect(ROLE_HOME[user.role]);
@@ -16,20 +16,22 @@ export default async function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center p-6">
-      <div className="bg-card text-card-foreground w-full max-w-sm rounded-xl border p-8 shadow-sm">
+      <div className="bg-card text-card-foreground w-full max-w-md rounded-xl border p-8 shadow-sm">
         <div className="mb-6 flex items-center gap-2 text-lg font-semibold">
           <Dumbbell className="size-6" />
           GymFlow
         </div>
-        <h1 className="mb-1 text-xl font-semibold tracking-tight">Sign in</h1>
+        <h1 className="mb-1 text-xl font-semibold tracking-tight">
+          Create your coach account
+        </h1>
         <p className="text-muted-foreground mb-6 text-sm">
-          Welcome back. Enter your credentials to continue.
+          Set up your account to start managing athletes and programs.
         </p>
-        <LoginForm />
+        <RegisterForm />
         <p className="text-muted-foreground mt-6 text-center text-sm">
-          New coach?{" "}
-          <Link href={REGISTER_PATH} className="font-medium underline">
-            Create an account
+          Already have an account?{" "}
+          <Link href={LOGIN_PATH} className="font-medium underline">
+            Sign in
           </Link>
         </p>
       </div>

@@ -2,42 +2,18 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   SESSION_COOKIE,
   LOGIN_PATH,
-  ROLE_HOME,
 } from "@/features/authentication/constants/auth.constants";
-import type { UserRole } from "@/features/authentication/types/session.types";
 
 /**
- * Coarse route protection at the edge. The authoritative, role-aware check
- * also runs in each area's layout via requireRole().
+ * Coarse edge protection: redirect to login when the session cookie is absent.
+ * The JWT is verified (and the role enforced) in each area's layout via
+ * requireRole(), which runs in the Node.js runtime where node:crypto exists.
  */
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const raw = request.cookies.get(SESSION_COOKIE)?.value;
-
-  let role: UserRole | null = null;
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw) as { role?: string };
-      if (parsed.role === "coach" || parsed.role === "athlete") {
-        role = parsed.role;
-      }
-    } catch {
-      role = null;
-    }
-  }
-
-  if (!role) {
+  const token = request.cookies.get(SESSION_COOKIE)?.value;
+  if (!token) {
     return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
-
-  if (pathname.startsWith("/coach") && role !== "coach") {
-    return NextResponse.redirect(new URL(ROLE_HOME[role], request.url));
-  }
-
-  if (pathname.startsWith("/athlete") && role !== "athlete") {
-    return NextResponse.redirect(new URL(ROLE_HOME[role], request.url));
-  }
-
   return NextResponse.next();
 }
 

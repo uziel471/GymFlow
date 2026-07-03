@@ -1,2 +1,4 @@
-// Public API of the `coaches` feature. Consumers import only from here.
-export {};
+// Public API of the `coaches` feature.
+export { coachRepository } from "./repositories/coach.repository";
+export type { CreateCoachInput } from "./repositories/coach.repository";
+export type { CoachDocument } from "./repositories/models/coach.model";
