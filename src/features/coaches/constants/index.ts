@@ -1,2 +1,1 @@
-// coaches feature — constants. No exports yet.
-export {};
+export * from "./coach.constants";

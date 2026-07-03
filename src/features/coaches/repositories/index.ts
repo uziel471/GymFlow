@@ -1,2 +1,1 @@
-// coaches feature — Mongoose data access. No exports yet.
-export {};
+export * from "./models";

@@ -1,2 +1,1 @@
-// exercises feature — constants. No exports yet.
-export {};
+export * from "./exercise.constants";

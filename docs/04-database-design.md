@@ -493,4 +493,31 @@ Each future collection will carry its own `coachId` (and `athleteId` where relev
 
 ---
 
+# Implemented Mongoose Models
+
+The design above is implemented as Mongoose models, one per collection, colocated in each owning feature's repository layer. Only repositories import them.
+
+| Collection         | Model               | File                                                                | Enums                                        |
+| ------------------ | ------------------- | ------------------------------------------------------------------- | -------------------------------------------- |
+| coaches            | `Coach`             | `features/coaches/repositories/models/coach.model.ts`               | `CoachStatus`, `SubscriptionPlan`            |
+| athletes           | `Athlete`           | `features/athletes/repositories/models/athlete.model.ts`            | `Gender`, `AthleteGoal`, `AthleteStatus`     |
+| exercises          | `Exercise`          | `features/exercises/repositories/models/exercise.model.ts`          | `MuscleGroup`, `Equipment`, `ExerciseStatus` |
+| programs           | `Program`           | `features/programs/repositories/models/program.model.ts`            | `ProgramStatus`                              |
+| programVersions    | `ProgramVersion`    | `features/programs/repositories/models/program-version.model.ts`    | `DayType`                                    |
+| programAssignments | `ProgramAssignment` | `features/programs/repositories/models/program-assignment.model.ts` | `AssignmentStatus`                           |
+| workoutSessions    | `WorkoutSession`    | `features/workouts/repositories/models/workout-session.model.ts`    | `SessionStatus`                              |
+
+Enums are defined once as `const` arrays with a derived union type in each feature's `constants/` folder and referenced by both the schema `enum` and the TypeScript interfaces.
+
+## Immutability enforcement (model level)
+
+- **ProgramVersion** is write-once: a `pre("save")` hook rejects any save on a non-new document, and `pre` hooks on `findOneAndUpdate` / `updateOne` / `updateMany` / `replaceOne` / `findOneAndReplace` reject updates. Timestamps record `createdAt` only.
+- **WorkoutSession** uses `post("init")` to record the persisted status, and a `pre("save")` hook that blocks any modification once the stored status is `completed` — permitting only the `in_progress → completed` transition.
+
+## Model registration
+
+Each model is registered with the `models.X ?? model("X", schema)` guard so Next.js dev hot-reloads never trigger `OverwriteModelError`.
+
+---
+
 # End of Document

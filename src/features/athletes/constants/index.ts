@@ -1,2 +1,1 @@
-// athletes feature — constants. No exports yet.
-export {};
+export * from "./athlete.constants";
