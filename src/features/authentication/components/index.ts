@@ -1,2 +1,1 @@
-// authentication feature — UI components. No exports yet.
-export {};
+export * from "./sign-out-button";

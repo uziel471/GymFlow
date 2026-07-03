@@ -1,2 +1,1 @@
-// authentication feature — constants. No exports yet.
-export {};
+export * from "./auth.constants";

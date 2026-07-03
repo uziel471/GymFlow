@@ -1,2 +1,1 @@
-// authentication feature — pure helpers. No exports yet.
-export {};
+export * from "./require-role";

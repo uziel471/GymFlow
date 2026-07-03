@@ -1,2 +1,1 @@
-// Shared types. No business logic. No exports yet.
-export {};
+export * from "./navigation.types";
