@@ -1,2 +1,1 @@
-// exercises feature — types. No exports yet.
-export {};
+export * from "./exercise.types";
