@@ -1,2 +1,1 @@
-// athletes feature — types. No exports yet.
-export {};
+export * from "./athlete.types";

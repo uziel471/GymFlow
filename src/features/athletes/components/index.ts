@@ -1,2 +1,3 @@
-// athletes feature — UI components. No exports yet.
-export {};
+export * from "./athlete-form";
+export * from "./athletes-table";
+export * from "./deactivate-athlete-button";
